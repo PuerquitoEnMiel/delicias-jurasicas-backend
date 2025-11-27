@@ -24,7 +24,7 @@ export class ProductsService {
             );
         }
 
-        const { recipe, ...productData } = dto;
+        const { recipe, images, ...productData } = dto;
 
         return this.prisma.product.create({
             data: {
@@ -42,6 +42,12 @@ export class ProductsService {
                             })),
                         },
                     },
+                } : undefined,
+                images: images ? {
+                    create: images.map(img => ({
+                        url: img.url,
+                        isPrimary: img.isPrimary || false,
+                    })),
                 } : undefined,
             },
             include: {
@@ -146,7 +152,7 @@ export class ProductsService {
             }
         }
 
-        const { recipe, ...productData } = dto;
+        const { recipe, images, ...productData } = dto;
 
         // If recipe is provided, we need to handle it carefully
         if (recipe) {
@@ -190,7 +196,16 @@ export class ProductsService {
 
         return this.prisma.product.update({
             where: { id },
-            data: productData,
+            data: {
+                ...productData,
+                images: images ? {
+                    deleteMany: {},
+                    create: images.map(img => ({
+                        url: img.url,
+                        isPrimary: img.isPrimary || false,
+                    })),
+                } : undefined,
+            },
             include: {
                 category: true,
                 images: true,

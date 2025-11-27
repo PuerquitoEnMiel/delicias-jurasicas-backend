@@ -82,21 +82,46 @@ export default function CashBox() {
 
                     {!activeBox ? (
                         <div className="space-y-4">
+                            {/* Suggested Amount from last closing */}
+                            {history && history.length > 0 && history[0].finalAmount > 0 && (
+                                <div className="mb-4 p-4 bg-gradient-to-r from-blue-50 to-verde-50 border-l-4 border-verde-500 rounded-lg">
+                                    <div className="flex items-start gap-3">
+                                        <div className="flex-1">
+                                            <p className="font-semibold text-gray-900 mb-1">💡 Monto Sugerido</p>
+                                            <p className="text-sm text-gray-600 mb-2">
+                                                La caja <span className="font-mono font-bold">{history[0].boxNumber}</span> cerró con:
+                                            </p>
+                                            <p className="text-2xl font-bold text-verde-600">
+                                                ${history[0].finalAmount.toFixed(2)}
+                                            </p>
+                                            <button
+                                                type="button"
+                                                onClick={() => setOpeningAmount(history[0].finalAmount.toString())}
+                                                className="mt-2 text-sm text-verde-700 hover:text-verde-900 underline font-medium"
+                                            >
+                                                → Usar este monto
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
                             <div>
                                 <label className="form-label">Monto Inicial</label>
                                 <input
                                     type="number"
-                                    className="form-input"
+                                    className="form-input focus:ring-2 focus:ring-verde-500 focus:border-verde-500 transition-all"
                                     value={openingAmount}
                                     onChange={(e) => setOpeningAmount(e.target.value)}
-                                    placeholder="0.00"
+                                    placeholder={history && history.length > 0 ? `Ej: ${history[0].finalAmount.toFixed(2)}` : "0.00"}
+                                    step="0.01"
                                 />
                             </div>
                             <div>
                                 <label className="form-label">Número de Caja</label>
                                 <input
                                     type="text"
-                                    className="form-input"
+                                    className="form-input focus:ring-2 focus:ring-verde-500 focus:border-verde-500 transition-all"
                                     value={boxNumber}
                                     onChange={(e) => setBoxNumber(e.target.value)}
                                 />

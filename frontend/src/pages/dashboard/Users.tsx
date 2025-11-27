@@ -218,9 +218,10 @@ export default function Users() {
                                     <input
                                         type="text"
                                         required
-                                        className="input w-full"
+                                        className="input w-full focus:ring-2 focus:ring-verde-500 focus:border-verde-500 transition-all"
                                         value={formData.firstName}
                                         onChange={e => setFormData({ ...formData, firstName: e.target.value })}
+                                        placeholder="Ej: Juan"
                                     />
                                 </div>
                                 <div>
@@ -228,9 +229,10 @@ export default function Users() {
                                     <input
                                         type="text"
                                         required
-                                        className="input w-full"
+                                        className="input w-full focus:ring-2 focus:ring-verde-500 focus:border-verde-500 transition-all"
                                         value={formData.lastName}
                                         onChange={e => setFormData({ ...formData, lastName: e.target.value })}
+                                        placeholder="Ej: Pérez"
                                     />
                                 </div>
                             </div>
@@ -239,10 +241,11 @@ export default function Users() {
                                 <input
                                     type="email"
                                     required
-                                    className="input w-full"
+                                    className="input w-full focus:ring-2 focus:ring-verde-500 focus:border-verde-500 transition-all"
                                     value={formData.email}
                                     onChange={e => setFormData({ ...formData, email: e.target.value })}
                                     disabled={!!editingUser}
+                                    placeholder="usuario@deliciasjurasicas.com"
                                 />
                             </div>
                             <div>
@@ -252,10 +255,11 @@ export default function Users() {
                                 <input
                                     type="password"
                                     required={!editingUser}
-                                    className="input w-full"
+                                    className="input w-full focus:ring-2 focus:ring-amarillo-500 focus:border-amarillo-500 transition-all"
                                     value={formData.password}
                                     onChange={e => setFormData({ ...formData, password: e.target.value })}
                                     minLength={6}
+                                    placeholder={editingUser ? "Dejar vacío para no cambiar" : "Mínimo 6 caracteres"}
                                 />
                             </div>
                             <div>

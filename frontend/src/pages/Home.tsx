@@ -16,7 +16,7 @@ export default function Home() {
             {/* Hero Section */}
             <section className="relative min-h-[85vh] flex items-center bg-gray-900 overflow-hidden">
                 {/* Background Elements */}
-                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1556910103-1c02745a30bf?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
+                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1605806616949-1e87b487bc2a?q=80&w=1920&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
                 <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/90 to-transparent"></div>
 
                 {/* Floating Shapes */}
@@ -43,11 +43,12 @@ export default function Home() {
                             </p>
 
                             <div className="flex flex-wrap gap-4">
-                                <Link to="/shop" className="btn btn-primary text-lg px-8">
-                                    <ShoppingBag className="w-5 h-5 mr-2" />
+                                <Link to="/shop" className="btn btn-primary btn-lg shadow-glow-verde flex items-center gap-2 text-white hover:scale-105 transition-transform">
+                                    <ShoppingBag className="w-5 h-5" />
                                     Ver Catálogo
                                 </Link>
-                                <Link to="/about" className="btn btn-secondary bg-white/5 border-white/10 text-white hover:bg-white/10 hover:border-white/20 backdrop-blur-sm">
+                                <Link to="/about" className="btn btn-lg bg-white/10 backdrop-blur-md border-2 border-white text-white hover:bg-white hover:text-gray-900 transition-all duration-300 font-bold flex items-center gap-2 hover:scale-105">
+                                    <Star className="w-5 h-5" />
                                     Conocer Más
                                 </Link>
                             </div>
@@ -72,14 +73,14 @@ export default function Home() {
                         <div className="hidden md:block relative animate-fade-in">
                             <div className="relative z-10 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 transform rotate-3 hover:rotate-0 transition-transform duration-500">
                                 <img
-                                    src="https://images.unsplash.com/photo-1535141192574-5d4897c12636?q=80&w=1000&auto=format&fit=crop"
+                                    src="https://images.unsplash.com/photo-1558301211-0d8c8ddee6ec?q=80&w=1000&auto=format&fit=crop"
                                     alt="Pastel Premium"
                                     className="rounded-2xl shadow-2xl w-full object-cover h-[500px]"
                                 />
                                 <div className="absolute bottom-10 left-10 right-10 bg-white/90 backdrop-blur-md p-4 rounded-xl shadow-lg">
                                     <div className="flex justify-between items-center">
                                         <div>
-                                            <p className="font-bold text-gray-900">T-Rex Chocolate Cake</p>
+                                            <p className="font-bold text-gray-900">T-Rex Green Cake</p>
                                             <p className="text-sm text-gray-500">Edición Limitada</p>
                                         </div>
                                         <span className="text-primary-600 font-bold text-xl">$45.00</span>

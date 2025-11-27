@@ -223,18 +223,20 @@ export default function Suppliers() {
                                 <input
                                     type="text"
                                     required
-                                    className="input w-full"
+                                    className="input w-full focus:ring-2 focus:ring-verde-500 focus:border-verde-500 transition-all"
                                     value={formData.name}
                                     onChange={e => setFormData({ ...formData, name: e.target.value })}
+                                    placeholder="Ej: Harina del Valle S.A."
                                 />
                             </div>
                             <div>
                                 <label className="label">Nombre de Contacto</label>
                                 <input
                                     type="text"
-                                    className="input w-full"
+                                    className="input w-full focus:ring-2 focus:ring-verde-500 focus:border-verde-500 transition-all"
                                     value={formData.contactName}
                                     onChange={e => setFormData({ ...formData, contactName: e.target.value })}
+                                    placeholder="Ej: Juan Pérez"
                                 />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
@@ -242,18 +244,20 @@ export default function Suppliers() {
                                     <label className="label">Email</label>
                                     <input
                                         type="email"
-                                        className="input w-full"
+                                        className="input w-full focus:ring-2 focus:ring-verde-500 focus:border-verde-500 transition-all"
                                         value={formData.email}
                                         onChange={e => setFormData({ ...formData, email: e.target.value })}
+                                        placeholder="contacto@empresa.com"
                                     />
                                 </div>
                                 <div>
                                     <label className="label">Teléfono</label>
                                     <input
                                         type="tel"
-                                        className="input w-full"
+                                        className="input w-full focus:ring-2 focus:ring-verde-500 focus:border-verde-500 transition-all"
                                         value={formData.phone}
                                         onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                                        placeholder="+52 123 456 7890"
                                     />
                                 </div>
                             </div>
@@ -261,18 +265,20 @@ export default function Suppliers() {
                                 <label className="label">Dirección</label>
                                 <input
                                     type="text"
-                                    className="input w-full"
+                                    className="input w-full focus:ring-2 focus:ring-verde-500 focus:border-verde-500 transition-all"
                                     value={formData.address}
                                     onChange={e => setFormData({ ...formData, address: e.target.value })}
+                                    placeholder="Calle Principal #123, Col. Centro"
                                 />
                             </div>
                             <div>
                                 <label className="label">RUC / RFC</label>
                                 <input
                                     type="text"
-                                    className="input w-full"
+                                    className="input w-full focus:ring-2 focus:ring-verde-500 focus:border-verde-500 transition-all"
                                     value={formData.taxId}
                                     onChange={e => setFormData({ ...formData, taxId: e.target.value })}
+                                    placeholder="ABC123456XYZ"
                                 />
                             </div>
 

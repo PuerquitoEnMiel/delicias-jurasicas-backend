@@ -1,4 +1,5 @@
-import { IsString, IsEnum, IsNumber, IsOptional, IsBoolean, Min } from 'class-validator';
+import { IsString, IsEnum, IsNumber, IsOptional, IsBoolean, Min, ValidateNested } from 'class-validator';
+
 import { ApiProperty } from '@nestjs/swagger';
 import { ProductType, MeasureUnit } from '@prisma/client';
 import { Type } from 'class-transformer';
@@ -11,6 +12,17 @@ export class CreateRecipeDto {
         quantity: number;
         unit: MeasureUnit;
     }[];
+}
+
+export class CreateProductImageDto {
+    @ApiProperty()
+    @IsString()
+    url: string;
+
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsBoolean()
+    isPrimary?: boolean;
 }
 
 export class CreateProductDto {
@@ -83,6 +95,12 @@ export class CreateProductDto {
     @ApiProperty({ required: false })
     @IsOptional()
     recipe?: CreateRecipeDto;
+
+    @ApiProperty({ required: false, type: [CreateProductImageDto] })
+    @IsOptional()
+    @ValidateNested({ each: true })
+    @Type(() => CreateProductImageDto)
+    images?: CreateProductImageDto[];
 }
 
 

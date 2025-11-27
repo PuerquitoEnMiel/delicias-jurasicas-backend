@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply font-sans text-gray-900 bg-gray-50 antialiased;
+    @apply font-sans text-gray-900 bg-beige-100 antialiased;
   }
 
   h1,
@@ -15,96 +15,157 @@
   h4,
   h5,
   h6 {
-    @apply font-heading font-bold tracking-tight;
-  }
-}
-
-@layer components {
-
-  /* Buttons */
-  .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply font-heading font-bold tracking-tight text-chocolate-800;
   }
 
-  .btn-primary {
-    @apply bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/30 hover:shadow-primary-500/40 hover:-translate-y-0.5;
-  }
+  /* ==========================================
+     CARDS CON SOMBRAS PROFUNDAS
+     ========================================== */
 
-  .btn-secondary {
-    @apply bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 hover:border-gray-300 shadow-sm;
-  }
-
-  /* Cards */
   .card {
-    @apply bg-white rounded-2xl border border-gray-100 shadow-xl shadow-gray-200/50 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-gray-200/60 hover:-translate-y-1;
+    @apply bg-white rounded-2xl p-6 shadow-warm-md border border-beige-200/50 hover:shadow-warm-lg hover:-translate-y-1 transition-all duration-300;
   }
 
-  /* Forms */
-  .input-field {
-    @apply w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 transition-all outline-none;
+  .card-flat {
+    @apply bg-white rounded-xl p-5 border border-beige-200 shadow-sm;
   }
 
-  .form-label {
-    @apply block text-sm font-semibold text-gray-700 mb-1.5;
+  .card-elevated {
+    @apply bg-white rounded-2xl p-8 shadow-warm-xl border-2 border-beige-300/30;
   }
+
+  /* ==========================================
+     FORMS CON ESTILO CÁLIDO
+     ========================================== */
 
   .form-input,
   .form-select,
   .form-textarea {
-    @apply w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 transition-all outline-none disabled:opacity-50 disabled:bg-gray-100;
+    @apply w-full px-4 py-3 rounded-xl bg-white border-2 border-beige-300 text-chocolate-800 placeholder-beige-500 focus:border-verde-400 focus:ring-4 focus:ring-verde-100 transition-all duration-200 shadow-sm hover:border-beige-400;
   }
 
-  .form-select {
-    @apply appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20stroke%3D%22%236b7280%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.5%22%20d%3D%22M6%208l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[length:1.25rem_1.25rem] bg-no-repeat bg-[right_0.75rem_center] pr-10;
+  .form-label {
+    @apply block text-sm font-semibold text-chocolate-700 mb-2;
   }
 
   .form-error {
-    @apply text-sm text-red-500 mt-1 flex items-center gap-1;
+    @apply text-red-600 text-sm mt-1 font-medium;
   }
 
-  /* Tables */
-  .table {
-    @apply w-full text-left border-collapse;
-  }
+  /* ==========================================
+     BADGES CON COLORES CÁLIDOS
+     ========================================== */
 
-  .table thead tr {
-    @apply border-b border-gray-200 bg-gray-50/50;
-  }
-
-  .table th {
-    @apply px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap;
-  }
-
-  .table tbody tr {
-    @apply border-b border-gray-100 transition-colors hover:bg-gray-50/50;
-  }
-
-  .table td {
-    @apply px-6 py-4 text-sm text-gray-600 align-middle;
-  }
-
-  /* Badges */
   .badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ring-1 ring-inset;
-  }
-
-  .badge-warning {
-    @apply bg-yellow-50 text-yellow-700 ring-yellow-600/20;
-  }
-
-  .badge-info {
-    @apply bg-blue-50 text-blue-700 ring-blue-700/10;
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold;
   }
 
   .badge-success {
-    @apply bg-green-50 text-green-700 ring-green-600/20;
+    @apply bg-verde-100 text-verde-800 border border-verde-300;
+  }
+
+  .badge-warning {
+    @apply bg-amarillo-100 text-amarillo-800 border border-amarillo-300;
   }
 
   .badge-danger {
-    @apply bg-red-50 text-red-700 ring-red-600/10;
+    @apply bg-naranja-100 text-naranja-800 border border-naranja-300;
+  }
+
+  .badge-info {
+    @apply bg-beige-200 text-chocolate-800 border border-beige-400;
   }
 
   .badge-secondary {
-    @apply bg-gray-50 text-gray-600 ring-gray-500/10;
+    @apply bg-gray-200 text-gray-700 border border-gray-300;
   }
+
+  /* ==========================================
+     TABLAS MEJORADAS
+     ========================================== */
+
+  .table {
+    @apply w-full text-left;
+  }
+
+  .table thead {
+    @apply bg-gradient-to-r from-beige-100 to-beige-50 border-b-2 border-beige-300;
+  }
+
+  .table thead th {
+    @apply py-4 px-6 text-sm font-bold text-chocolate-700 uppercase tracking-wide;
+  }
+
+  .table tbody tr {
+    @apply border-b border-beige-100 hover:bg-beige-50/50 transition-colors duration-150;
+  }
+
+  .table tbody td {
+    @apply py-4 px-6 text-gray-800;
+  }
+
+  /* ==========================================
+     EFECTOS Y UTILIDADES
+     ========================================== */
+
+  .shadow-glow-verde {
+    @apply shadow-lg shadow-verde-400/40;
+  }
+
+  .shadow-glow-amarillo {
+    @apply shadow-lg shadow-amarillo-400/40;
+  }
+
+  .gradient-warm {
+    @apply bg-gradient-to-br from-beige-50 via-beige-100 to-beige-200;
+  }
+
+  .gradient-hero {
+    background: linear-gradient(135deg, #fbf7ed 0%, #f5e6a8 50%, #f8f0db 100%);
+  }
+
+  /* Divider con gradiente */
+  .divider-warm {
+    @apply h-px bg-gradient-to-r from-transparent via-beige-300 to-transparent;
+  }
+}
+
+/* ==========================================
+   SCROLLBAR PERSONALIZADA
+   ========================================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-beige-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-beige-400 rounded-full hover:bg-beige-500;
+}
+
+/* ==========================================
+   ANIMACIONES ADICIONALES
+   ========================================== */
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.loading-shimmer {
+  animation: shimmer 2s infinite;
+  background: linear-gradient(90deg,
+      #fbf7ed 0px,
+      #f5e6a8 50%,
+      #fbf7ed 100%);
+  background-size: 1000px 100%;
 }

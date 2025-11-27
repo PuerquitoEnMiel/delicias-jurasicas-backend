@@ -1,0 +1,30 @@
+[33me3a375d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mFatima[m[33m, [m[1;31morigin/Fatima[m[33m)[m HEAD@{0}: checkout: moving from Edwin to Fatima
+[33m34c3286[m[33m ([m[1;31morigin/Edwin[m[33m, [m[1;32mEdwin[m[33m)[m HEAD@{1}: reset: moving to HEAD
+[33m34c3286[m[33m ([m[1;31morigin/Edwin[m[33m, [m[1;32mEdwin[m[33m)[m HEAD@{2}: checkout: moving from Renzo to Edwin
+[33me35e715[m[33m ([m[1;31morigin/Renzo[m[33m, [m[1;32mRenzo[m[33m)[m HEAD@{3}: reset: moving to HEAD
+[33me35e715[m[33m ([m[1;31morigin/Renzo[m[33m, [m[1;32mRenzo[m[33m)[m HEAD@{4}: commit: 🎨 Rediseño UI 100% Completado: Dashboard & Shop Renovados
+[33mc907b4d[m HEAD@{5}: checkout: moving from Fatima to Renzo
+[33me3a375d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mFatima[m[33m, [m[1;31morigin/Fatima[m[33m)[m HEAD@{6}: reset: moving to origin/Fatima
+[33m6297e00[m HEAD@{7}: commit: 🎨 Rediseño UI 100% Completado: Dashboard & Shop Renovados
+[33me3a375d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mFatima[m[33m, [m[1;31morigin/Fatima[m[33m)[m HEAD@{8}: commit: 🎉 100% COMPLETADO - TODAS LAS 7 MEJORAS IMPLEMENTADAS
+[33m77c4492[m HEAD@{9}: reset: moving to HEAD
+[33m77c4492[m HEAD@{10}: checkout: moving from develop to Fatima
+[33m22835d4[m[33m ([m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{11}: reset: moving to HEAD
+[33m22835d4[m[33m ([m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{12}: merge Edwin: Merge made by the 'ort' strategy.
+[33m799de02[m HEAD@{13}: checkout: moving from Edwin to develop
+[33m34c3286[m[33m ([m[1;31morigin/Edwin[m[33m, [m[1;32mEdwin[m[33m)[m HEAD@{14}: checkout: moving from Edwin to Edwin
+[33m34c3286[m[33m ([m[1;31morigin/Edwin[m[33m, [m[1;32mEdwin[m[33m)[m HEAD@{15}: reset: moving to HEAD
+[33m34c3286[m[33m ([m[1;31morigin/Edwin[m[33m, [m[1;32mEdwin[m[33m)[m HEAD@{16}: checkout: moving from Edwin to Edwin
+[33m34c3286[m[33m ([m[1;31morigin/Edwin[m[33m, [m[1;32mEdwin[m[33m)[m HEAD@{17}: commit: Subida Final de la Mañana: Frontend Jurassic Park arreglado y funcionando
+[33m7e6a36c[m HEAD@{18}: commit: Update: Avances completos Backend + Frontend Jurassic Park
+[33m6de12a5[m HEAD@{19}: commit: Subida Final: Backend y Frontend Jurassic Park completos
+[33m5cb9042[m HEAD@{20}: checkout: moving from Edwin to Edwin
+[33m5cb9042[m HEAD@{21}: checkout: moving from Edwin to Edwin
+[33m5cb9042[m HEAD@{22}: reset: moving to 5cb9042
+[33m799de02[m HEAD@{23}: checkout: moving from main to Edwin
+[33mbc668d7[m[33m ([m[1;32mmain[m[33m)[m HEAD@{24}: commit: Subida completa del proyecto: Backend NestJS + Frontend React (Jurassic Theme)
+[33m5cb9042[m HEAD@{25}: checkout: moving from main to main
+[33m5cb9042[m HEAD@{26}: checkout: moving from main to main
+[33m5cb9042[m HEAD@{27}: commit: Frontend: Diseño Jurassic Park + Correcciones de lógica
+[33m0e5e71e[m HEAD@{28}: Branch: renamed refs/heads/master to refs/heads/main
+[33m0e5e71e[m HEAD@{30}: commit (initial): Primer commit: Backend inicial NestJS

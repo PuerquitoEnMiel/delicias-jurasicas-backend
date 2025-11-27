@@ -9,7 +9,7 @@ Sistema completo de gestión para pastelería que integra:
 
 - **Backend**: NestJS 10 + TypeScript
 - **ORM**: Prisma 5
-- **Base de datos**: PostgreSQL 15
+- **Base de datos**: PostgreSQL 15+
 - **Autenticación**: JWT + Passport
 - **Documentación**: Swagger/OpenAPI
 - **Validación**: class-validator

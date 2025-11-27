@@ -18,11 +18,11 @@ datasource db {
 // ==========================================
 
 enum UserRole {
-  ADMIN           // Control total del sistema
-  VENDEDOR        // Cajero / Punto de Venta
-  PANADERO        // Producción / Manufactura
-  REPARTIDOR      // Entregas
-  CLIENTE         // Compras online
+  ADMIN // Control total del sistema
+  VENDEDOR // Cajero / Punto de Venta
+  PANADERO // Producción / Manufactura
+  REPARTIDOR // Entregas
+  CLIENTE // Compras online
 }
 
 enum UserStatus {
@@ -32,47 +32,47 @@ enum UserStatus {
 }
 
 model User {
-  id            String      @id @default(uuid())
-  email         String      @unique
-  password      String      // Hash bcrypt
-  firstName     String
-  lastName      String
-  phone         String?
-  role          UserRole    @default(CLIENTE)
-  status        UserStatus  @default(ACTIVE)
-  
+  id        String     @id @default(uuid())
+  email     String     @unique
+  password  String // Hash bcrypt
+  firstName String
+  lastName  String
+  phone     String?
+  role      UserRole   @default(CLIENTE)
+  status    UserStatus @default(ACTIVE)
+
   // Timestamps
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  lastLoginAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  lastLoginAt DateTime?
 
   // Relaciones
-  auditLogs     AuditLog[]
-  orders        Order[]
-  cashBoxes     CashBox[]
+  auditLogs        AuditLog[]
+  orders           Order[]
+  cashBoxes        CashBox[]
   productionOrders ProductionOrder[]
-  deliveries    Delivery[]
-  addresses     Address[]
-  carts         Cart[]
-  
+  deliveries       Delivery[]
+  addresses        Address[]
+  carts            Cart[]
+
   @@map("users")
 }
 
 // Tabla INMUTABLE de auditoría (append-only)
 model AuditLog {
-  id              String    @id @default(uuid())
-  userId          String
-  action          String    // CREATE, UPDATE, DELETE, LOGIN, LOGOUT
-  tableName       String    // Tabla afectada
-  recordId        String?   // ID del registro afectado
-  previousData    Json?     // Estado anterior (JSON)
-  newData         Json?     // Estado nuevo (JSON)
-  ipAddress       String?
-  userAgent       String?
-  timestamp       DateTime  @default(now())
-  
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id           String   @id @default(uuid())
+  userId       String
+  action       String // CREATE, UPDATE, DELETE, LOGIN, LOGOUT
+  tableName    String // Tabla afectada
+  recordId     String? // ID del registro afectado
+  previousData Json? // Estado anterior (JSON)
+  newData      Json? // Estado nuevo (JSON)
+  ipAddress    String?
+  userAgent    String?
+  timestamp    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@index([userId])
   @@index([tableName])
   @@index([timestamp])
@@ -84,94 +84,95 @@ model AuditLog {
 // ==========================================
 
 enum MeasureUnit {
-  KG        // Kilogramos
-  GR        // Gramos
-  LT        // Litros
-  ML        // Mililitros
-  UN        // Unidades
-  DOC       // Docenas
-  PZA       // Piezas
+  KG // Kilogramos
+  GR // Gramos
+  LT // Litros
+  ML // Mililitros
+  UN // Unidades
+  DOC // Docenas
+  PZA // Piezas
 }
 
 enum ProductType {
-  INSUMO            // Materia prima (harina, huevos)
+  INSUMO // Materia prima (harina, huevos)
   PRODUCTO_TERMINADO // Producto listo para venta
-  SEMI_ELABORADO    // Productos intermedios (masa preparada)
+  SEMI_ELABORADO // Productos intermedios (masa preparada)
 }
 
 model Product {
-  id              String        @id @default(uuid())
-  sku             String        @unique
-  name            String
-  description     String?
-  type            ProductType
-  
+  id          String      @id @default(uuid())
+  sku         String      @unique
+  name        String
+  description String?
+  type        ProductType
+
   // Inventario
-  currentStock    Float         @default(0)
-  minStock        Float?        // Stock crítico (alerta)
-  maxStock        Float?        
-  measureUnit     MeasureUnit
-  
+  currentStock Float       @default(0)
+  minStock     Float? // Stock crítico (alerta)
+  maxStock     Float?
+  measureUnit  MeasureUnit
+
   // Comercial (solo para productos terminados)
-  salePrice       Float?
-  costPrice       Float?        // Costo unitario
-  isActive        Boolean       @default(true)
-  isFeatured      Boolean       @default(false)
-  
+  salePrice  Float?
+  costPrice  Float? // Costo unitario
+  isActive   Boolean @default(true)
+  isFeatured Boolean @default(false)
+
   // Media
-  images          ProductImage[]
-  
+  images ProductImage[]
+
   // Timestamps
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   // Relaciones
   // Como insumo (soy ingrediente de...)
   recipeIngredients RecipeIngredient[] @relation("IngredientProduct")
-  
+
   // Como producto terminado (mi receta es...)
-  recipe          Recipe?       @relation("FinishedProduct")
-  
+  recipe Recipe? @relation("FinishedProduct")
+
   // Movimientos
-  stockMovements  StockMovement[]
-  orderItems      OrderItem[]
-  cartItems       CartItem[]
-  
+  stockMovements StockMovement[]
+  orderItems     OrderItem[]
+  cartItems      CartItem[]
+
   // Categoría
   categoryId      String?
-  category        Category?     @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  
+  category        Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  ProductionOrder ProductionOrder[]
+
   @@index([type])
   @@index([isActive])
   @@map("products")
 }
 
 model ProductImage {
-  id          String    @id @default(uuid())
-  productId   String
-  url         String    // URL local o cloud (S3, Cloudinary)
-  altText     String?
-  isPrimary   Boolean   @default(false)
-  sortOrder   Int       @default(0)
-  createdAt   DateTime  @default(now())
-  
-  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
-  
+  id        String   @id @default(uuid())
+  productId String
+  url       String // URL local o cloud (S3, Cloudinary)
+  altText   String?
+  isPrimary Boolean  @default(false)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
   @@index([productId])
   @@map("product_images")
 }
 
 model Category {
-  id          String    @id @default(uuid())
-  name        String    @unique
-  slug        String    @unique
+  id          String  @id @default(uuid())
+  name        String  @unique
+  slug        String  @unique
   description String?
   icon        String?
-  isActive    Boolean   @default(true)
-  sortOrder   Int       @default(0)
-  
-  products    Product[]
-  
+  isActive    Boolean @default(true)
+  sortOrder   Int     @default(0)
+
+  products Product[]
+
   @@map("categories")
 }
 
@@ -181,37 +182,37 @@ model Category {
 
 // Una receta define qué insumos necesita un producto terminado
 model Recipe {
-  id                String              @id @default(uuid())
-  productId         String              @unique // Producto terminado
-  name              String
-  description       String?
-  yieldQuantity     Float               // Cantidad que produce (ej: 1 pastel)
-  yieldUnit         MeasureUnit
-  preparationTime   Int?                // Minutos
-  instructions      String?             @db.Text
-  
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  
+  id              String      @id @default(uuid())
+  productId       String      @unique // Producto terminado
+  name            String
+  description     String?
+  yieldQuantity   Float // Cantidad que produce (ej: 1 pastel)
+  yieldUnit       MeasureUnit
+  preparationTime Int? // Minutos
+  instructions    String?     @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   // Relaciones
-  product           Product             @relation("FinishedProduct", fields: [productId], references: [id], onDelete: Cascade)
-  ingredients       RecipeIngredient[]
-  
+  product     Product            @relation("FinishedProduct", fields: [productId], references: [id], onDelete: Cascade)
+  ingredients RecipeIngredient[]
+
   @@map("recipes")
 }
 
 // Ingredientes de una receta (relación muchos a muchos)
 model RecipeIngredient {
-  id          String      @id @default(uuid())
-  recipeId    String
-  ingredientId String     // Referencia a un Product de tipo INSUMO
-  quantity    Float       // Cantidad necesaria
-  unit        MeasureUnit
-  notes       String?
-  
-  recipe      Recipe      @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  ingredient  Product     @relation("IngredientProduct", fields: [ingredientId], references: [id], onDelete: Cascade)
-  
+  id           String      @id @default(uuid())
+  recipeId     String
+  ingredientId String // Referencia a un Product de tipo INSUMO
+  quantity     Float // Cantidad necesaria
+  unit         MeasureUnit
+  notes        String?
+
+  recipe     Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  ingredient Product @relation("IngredientProduct", fields: [ingredientId], references: [id], onDelete: Cascade)
+
   @@unique([recipeId, ingredientId])
   @@map("recipe_ingredients")
 }
@@ -229,29 +230,29 @@ enum ProductionStatus {
 
 // Orden de producción: "Voy a hornear 10 pasteles"
 model ProductionOrder {
-  id              String            @id @default(uuid())
-  orderNumber     String            @unique @default(cuid())
-  productId       String            // Producto a fabricar
-  product       Product  @relation(fields: [productId], references: [id])
-  quantity        Float             // Cantidad a producir
-  status          ProductionStatus  @default(PENDIENTE)
-  
+  id          String           @id @default(uuid())
+  orderNumber String           @unique @default(cuid())
+  productId   String // Producto a fabricar
+  product     Product          @relation(fields: [productId], references: [id])
+  quantity    Float // Cantidad a producir
+  status      ProductionStatus @default(PENDIENTE)
+
   // Usuario responsable (panadero)
-  assignedToId    String?
-  assignedTo      User?             @relation(fields: [assignedToId], references: [id], onDelete: SetNull)
-  
+  assignedToId String?
+  assignedTo   User?   @relation(fields: [assignedToId], references: [id], onDelete: SetNull)
+
   // Fechas
-  scheduledDate   DateTime?
-  startedAt       DateTime?
-  completedAt     DateTime?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  
-  notes           String?
-  
+  scheduledDate DateTime?
+  startedAt     DateTime?
+  completedAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  notes String?
+
   // Relación con movimientos de stock
-  stockMovements  StockMovement[]
-  
+  stockMovements StockMovement[]
+
   @@index([status])
   @@map("production_orders")
 }
@@ -261,37 +262,37 @@ model ProductionOrder {
 // ==========================================
 
 enum MovementType {
-  COMPRA              // Entrada por compra a proveedor
-  PRODUCCION_ENTRADA  // Entrada por fabricación (producto terminado)
-  PRODUCCION_SALIDA   // Salida de insumos por fabricación
-  VENTA               // Salida por venta
-  AJUSTE_POSITIVO     // Corrección al alza
-  AJUSTE_NEGATIVO     // Corrección a la baja (merma, robo)
-  DEVOLUCION          // Devolución de cliente
-  TRANSFERENCIA       // Movimiento entre ubicaciones
+  COMPRA // Entrada por compra a proveedor
+  PRODUCCION_ENTRADA // Entrada por fabricación (producto terminado)
+  PRODUCCION_SALIDA // Salida de insumos por fabricación
+  VENTA // Salida por venta
+  AJUSTE_POSITIVO // Corrección al alza
+  AJUSTE_NEGATIVO // Corrección a la baja (merma, robo)
+  DEVOLUCION // Devolución de cliente
+  TRANSFERENCIA // Movimiento entre ubicaciones
 }
 
 model StockMovement {
-  id                  String          @id @default(uuid())
-  productId           String
-  type                MovementType
-  quantity            Float           // Cantidad (positiva o negativa)
-  previousStock       Float           // Stock antes del movimiento
-  newStock            Float           // Stock después del movimiento
-  costPerUnit         Float?          // Costo unitario para cálculos
-  
+  id            String       @id @default(uuid())
+  productId     String
+  type          MovementType
+  quantity      Float // Cantidad (positiva o negativa)
+  previousStock Float // Stock antes del movimiento
+  newStock      Float // Stock después del movimiento
+  costPerUnit   Float? // Costo unitario para cálculos
+
   // Referencias opcionales
-  orderId             String?         // Si fue por venta
-  productionOrderId   String?         // Si fue por producción
-  
-  notes               String?
-  createdAt           DateTime        @default(now())
-  
+  orderId           String? // Si fue por venta
+  productionOrderId String? // Si fue por producción
+
+  notes     String?
+  createdAt DateTime @default(now())
+
   // Relaciones
-  product             Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
-  order               Order?          @relation(fields: [orderId], references: [id], onDelete: SetNull)
-  productionOrder     ProductionOrder? @relation(fields: [productionOrderId], references: [id], onDelete: SetNull)
-  
+  product         Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
+  order           Order?           @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  productionOrder ProductionOrder? @relation(fields: [productionOrderId], references: [id], onDelete: SetNull)
+
   @@index([productId])
   @@index([type])
   @@index([createdAt])
@@ -303,62 +304,62 @@ model StockMovement {
 // ==========================================
 
 enum PromotionType {
-  PERCENTAGE    // Descuento por porcentaje
-  FIXED_AMOUNT  // Descuento fijo en dinero
-  BUY_X_GET_Y   // 2x1, 3x2
+  PERCENTAGE // Descuento por porcentaje
+  FIXED_AMOUNT // Descuento fijo en dinero
+  BUY_X_GET_Y // 2x1, 3x2
   FREE_SHIPPING // Envío gratis
-  COUPON        // Cupón de descuento
+  COUPON // Cupón de descuento
 }
 
 model Promotion {
-  id              String          @id @default(uuid())
-  code            String          @unique // Código del cupón
-  name            String
-  description     String?
-  type            PromotionType
-  
+  id          String        @id @default(uuid())
+  code        String        @unique // Código del cupón
+  name        String
+  description String?
+  type        PromotionType
+
   // Configuración del descuento
-  discountValue   Float?          // Porcentaje o monto fijo
-  buyQuantity     Int?            // Para BUY_X_GET_Y
-  getQuantity     Int?            // Para BUY_X_GET_Y
-  
+  discountValue Float? // Porcentaje o monto fijo
+  buyQuantity   Int? // Para BUY_X_GET_Y
+  getQuantity   Int? // Para BUY_X_GET_Y
+
   // Restricciones
-  minPurchase     Float?          // Monto mínimo de compra
-  maxDiscount     Float?          // Descuento máximo aplicable
-  usageLimit      Int?            // Límite de usos totales
-  usageCount      Int             @default(0)
-  
+  minPurchase Float? // Monto mínimo de compra
+  maxDiscount Float? // Descuento máximo aplicable
+  usageLimit  Int? // Límite de usos totales
+  usageCount  Int    @default(0)
+
   // Vigencia
-  startDate       DateTime
-  endDate         DateTime
-  isActive        Boolean         @default(true)
-  
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  
+  startDate DateTime
+  endDate   DateTime
+  isActive  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   // Relaciones
-  orders          Order[]
-  
+  orders Order[]
+
   @@map("promotions")
 }
 
 enum OrderStatus {
-  DRAFT           // Carrito no enviado
-  PENDING         // Pedido recibido, esperando pago
-  PAID            // Pagado, esperando preparación
-  IN_PRODUCTION   // En horno / fabricación
-  READY           // Listo para entrega/retiro
-  IN_TRANSIT      // En ruta de entrega
-  DELIVERED       // Entregado
-  COMPLETED       // Completado y cerrado
-  CANCELLED       // Cancelado
-  REFUNDED        // Reembolsado
+  DRAFT // Carrito no enviado
+  PENDING // Pedido recibido, esperando pago
+  PAID // Pagado, esperando preparación
+  IN_PRODUCTION // En horno / fabricación
+  READY // Listo para entrega/retiro
+  IN_TRANSIT // En ruta de entrega
+  DELIVERED // Entregado
+  COMPLETED // Completado y cerrado
+  CANCELLED // Cancelado
+  REFUNDED // Reembolsado
 }
 
 enum OrderType {
-  ONLINE          // Pedido e-commerce
-  POS             // Venta de mostrador
-  PHONE           // Pedido telefónico
+  ONLINE // Pedido e-commerce
+  POS // Venta de mostrador
+  PHONE // Pedido telefónico
 }
 
 enum PaymentMethod {
@@ -370,58 +371,58 @@ enum PaymentMethod {
 }
 
 model Order {
-  id              String          @id @default(uuid())
-  orderNumber     String          @unique @default(cuid())
-  type            OrderType       @default(ONLINE)
-  status          OrderStatus     @default(PENDING)
-  
+  id          String      @id @default(uuid())
+  orderNumber String      @unique @default(cuid())
+  type        OrderType   @default(ONLINE)
+  status      OrderStatus @default(PENDING)
+
   // Cliente
-  customerId      String?
-  customer        User?           @relation(fields: [customerId], references: [id], onDelete: SetNull)
-  
+  customerId String?
+  customer   User?   @relation(fields: [customerId], references: [id], onDelete: SetNull)
+
   // Datos de contacto (guardados por si el cliente se elimina)
-  customerName    String
-  customerEmail   String
-  customerPhone   String?
-  
+  customerName  String
+  customerEmail String
+  customerPhone String?
+
   // Dirección de entrega
   deliveryAddressId String?
-  deliveryAddress Address?        @relation(fields: [deliveryAddressId], references: [id], onDelete: SetNull)
-  
+  deliveryAddress   Address? @relation(fields: [deliveryAddressId], references: [id], onDelete: SetNull)
+
   // Montos
-  subtotal        Float           // Suma de items
-  discountAmount  Float           @default(0)
-  shippingCost    Float           @default(0)
-  taxAmount       Float           @default(0)
-  total           Float           // Total a pagar
-  
+  subtotal       Float // Suma de items
+  discountAmount Float @default(0)
+  shippingCost   Float @default(0)
+  taxAmount      Float @default(0)
+  total          Float // Total a pagar
+
   // Promoción aplicada
-  promotionId     String?
-  promotion       Promotion?      @relation(fields: [promotionId], references: [id], onDelete: SetNull)
-  
+  promotionId String?
+  promotion   Promotion? @relation(fields: [promotionId], references: [id], onDelete: SetNull)
+
   // Pago
-  paymentMethod   PaymentMethod?
-  paymentStatus   String?         // PENDING, COMPLETED, FAILED
-  paidAt          DateTime?
-  
+  paymentMethod PaymentMethod?
+  paymentStatus String? // PENDING, COMPLETED, FAILED
+  paidAt        DateTime?
+
   // Caja (para ventas POS)
-  cashBoxId       String?
-  cashBox         CashBox?        @relation(fields: [cashBoxId], references: [id], onDelete: SetNull)
-  
+  cashBoxId String?
+  cashBox   CashBox? @relation(fields: [cashBoxId], references: [id], onDelete: SetNull)
+
   // Notas
-  notes           String?
-  internalNotes   String?         // Notas privadas
-  
+  notes         String?
+  internalNotes String? // Notas privadas
+
   // Timestamps
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  completedAt     DateTime?
-  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  completedAt DateTime?
+
   // Relaciones
-  items           OrderItem[]
-  stockMovements  StockMovement[]
-  delivery        Delivery?
-  
+  items          OrderItem[]
+  stockMovements StockMovement[]
+  delivery       Delivery?
+
   @@index([customerId])
   @@index([status])
   @@index([type])
@@ -430,22 +431,22 @@ model Order {
 }
 
 model OrderItem {
-  id              String    @id @default(uuid())
-  orderId         String
-  productId       String
-  
-  quantity        Float
-  unitPrice       Float     // Precio al momento de la venta
-  unitCost        Float?    // Costo al momento de la venta (para reportes)
-  subtotal        Float     // quantity * unitPrice
-  discountAmount  Float     @default(0)
-  total           Float     // subtotal - discount
-  
-  notes           String?
-  
-  order           Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product         Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
-  
+  id        String @id @default(uuid())
+  orderId   String
+  productId String
+
+  quantity       Float
+  unitPrice      Float // Precio al momento de la venta
+  unitCost       Float? // Costo al momento de la venta (para reportes)
+  subtotal       Float // quantity * unitPrice
+  discountAmount Float  @default(0)
+  total          Float // subtotal - discount
+
+  notes String?
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
   @@index([orderId])
   @@map("order_items")
 }
@@ -455,34 +456,34 @@ model OrderItem {
 // ==========================================
 
 model Cart {
-  id          String      @id @default(uuid())
-  userId      String?     // Null para carritos de invitados
-  sessionId   String?     // Para invitados
-  
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  expiresAt   DateTime?   // Auto-limpieza de carritos abandonados
-  
-  user        User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items       CartItem[]
-  
+  id        String  @id @default(uuid())
+  userId    String? // Null para carritos de invitados
+  sessionId String? // Para invitados
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  expiresAt DateTime? // Auto-limpieza de carritos abandonados
+
+  user  User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items CartItem[]
+
   @@index([userId])
   @@index([sessionId])
   @@map("carts")
 }
 
 model CartItem {
-  id          String    @id @default(uuid())
-  cartId      String
-  productId   String
-  quantity    Float
-  
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  
-  cart        Cart      @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
-  
+  id        String @id @default(uuid())
+  cartId    String
+  productId String
+  quantity  Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
   @@unique([cartId, productId])
   @@map("cart_items")
 }
@@ -492,70 +493,70 @@ model CartItem {
 // ==========================================
 
 model Address {
-  id              String    @id @default(uuid())
-  userId          String
-  
-  label           String?   // "Casa", "Oficina"
-  recipientName   String
-  phone           String
-  street          String
-  number          String
-  apartment       String?
-  neighborhood    String?
-  city            String
-  state           String
-  zipCode         String?
-  country         String    @default("México")
-  
-  latitude        Float?
-  longitude       Float?
-  
-  isDefault       Boolean   @default(false)
-  
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  orders          Order[]
-  deliveries      Delivery[]
-  
+  id     String @id @default(uuid())
+  userId String
+
+  label         String? // "Casa", "Oficina"
+  recipientName String
+  phone         String
+  street        String
+  number        String
+  apartment     String?
+  neighborhood  String?
+  city          String
+  state         String
+  zipCode       String?
+  country       String  @default("México")
+
+  latitude  Float?
+  longitude Float?
+
+  isDefault Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders     Order[]
+  deliveries Delivery[]
+
   @@index([userId])
   @@map("addresses")
 }
 
 enum DeliveryStatus {
-  PENDING         // Esperando recolección
-  ASSIGNED        // Asignado a repartidor
-  IN_TRANSIT      // En camino
-  DELIVERED       // Entregado
-  FAILED          // Fallo en entrega
-  RETURNED        // Devuelto
+  PENDING // Esperando recolección
+  ASSIGNED // Asignado a repartidor
+  IN_TRANSIT // En camino
+  DELIVERED // Entregado
+  FAILED // Fallo en entrega
+  RETURNED // Devuelto
 }
 
 model Delivery {
-  id              String          @id @default(uuid())
-  orderId         String          @unique
-  order           Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  
-  addressId       String
-  address         Address         @relation(fields: [addressId], references: [id], onDelete: Cascade)
-  
+  id      String @id @default(uuid())
+  orderId String @unique
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  addressId String
+  address   Address @relation(fields: [addressId], references: [id], onDelete: Cascade)
+
   // Repartidor
-  driverId        String?
-  driver          User?           @relation(fields: [driverId], references: [id], onDelete: SetNull)
-  
-  status          DeliveryStatus  @default(PENDING)
-  
-  scheduledAt     DateTime?       // Fecha programada
-  pickedUpAt      DateTime?
-  deliveredAt     DateTime?
-  
-  notes           String?
-  evidencePhoto   String?         // URL de foto de entrega
-  
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  
+  driverId String?
+  driver   User?   @relation(fields: [driverId], references: [id], onDelete: SetNull)
+
+  status DeliveryStatus @default(PENDING)
+
+  scheduledAt DateTime? // Fecha programada
+  pickedUpAt  DateTime?
+  deliveredAt DateTime?
+
+  notes         String?
+  evidencePhoto String? // URL de foto de entrega
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([status])
   @@index([driverId])
   @@map("deliveries")
@@ -572,75 +573,75 @@ enum CashBoxStatus {
 
 // Arqueo de caja
 model CashBox {
-  id                String        @id @default(uuid())
-  boxNumber         String        // "Caja 1", "Caja Principal"
-  
+  id        String @id @default(uuid())
+  boxNumber String // "Caja 1", "Caja Principal"
+
   // Usuario responsable
-  userId            String
-  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  status            CashBoxStatus @default(OPEN)
-  
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status CashBoxStatus @default(OPEN)
+
   // Montos
-  openingAmount     Float         // Fondo inicial
-  expectedAmount    Float?        // Ventas registradas + apertura
-  actualAmount      Float?        // Conteo físico al cierre
-  difference        Float?        // Diferencia (faltante/sobrante)
-  
+  openingAmount  Float // Fondo inicial
+  expectedAmount Float? // Ventas registradas + apertura
+  actualAmount   Float? // Conteo físico al cierre
+  difference     Float? // Diferencia (faltante/sobrante)
+
   // Fechas
-  openedAt          DateTime      @default(now())
-  closedAt          DateTime?
-  
-  notes             String?
-  
+  openedAt DateTime  @default(now())
+  closedAt DateTime?
+
+  notes String?
+
   // Relaciones
-  orders            Order[]
-  transactions      CashTransaction[]
-  
+  orders       Order[]
+  transactions CashTransaction[]
+
   @@index([userId])
   @@index([status])
   @@map("cash_boxes")
 }
 
 enum TransactionType {
-  SALE            // Venta (entrada)
-  REFUND          // Devolución (salida)
-  EXPENSE         // Gasto (pago a proveedor, servicios)
-  WITHDRAWAL      // Retiro de efectivo
-  DEPOSIT         // Depósito de efectivo
-  ADJUSTMENT      // Ajuste manual
+  SALE // Venta (entrada)
+  REFUND // Devolución (salida)
+  EXPENSE // Gasto (pago a proveedor, servicios)
+  WITHDRAWAL // Retiro de efectivo
+  DEPOSIT // Depósito de efectivo
+  ADJUSTMENT // Ajuste manual
 }
 
 // Movimientos de efectivo no relacionados directamente con ventas
 model CashTransaction {
-  id              String          @id @default(uuid())
-  cashBoxId       String?
-  cashBox         CashBox?        @relation(fields: [cashBoxId], references: [id], onDelete: SetNull)
-  
-  type            TransactionType
-  amount          Float
-  description     String
-  reference       String?         // Factura, recibo, etc.
-  
+  id        String   @id @default(uuid())
+  cashBoxId String?
+  cashBox   CashBox? @relation(fields: [cashBoxId], references: [id], onDelete: SetNull)
+
+  type        TransactionType
+  amount      Float
+  description String
+  reference   String? // Factura, recibo, etc.
+
   // Categoría de gasto (opcional)
   expenseCategoryId String?
-  expenseCategory ExpenseCategory? @relation(fields: [expenseCategoryId], references: [id], onDelete: SetNull)
-  
-  createdAt       DateTime        @default(now())
-  
+  expenseCategory   ExpenseCategory? @relation(fields: [expenseCategoryId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
   @@index([cashBoxId])
   @@index([type])
   @@map("cash_transactions")
 }
 
 model ExpenseCategory {
-  id              String            @id @default(uuid())
-  name            String            @unique
-  description     String?
-  isActive        Boolean           @default(true)
-  
-  transactions    CashTransaction[]
-  
+  id          String  @id @default(uuid())
+  name        String  @unique
+  description String?
+  isActive    Boolean @default(true)
+
+  transactions CashTransaction[]
+
   @@map("expense_categories")
 }
 
@@ -664,28 +665,28 @@ model Setting {
   type        SettingType @default(TEXT)
   description String?
   isPublic    Boolean     @default(false) // Si puede ser consultado sin autenticación
-  
-  updatedAt   DateTime    @updatedAt
-  
+
+  updatedAt DateTime @updatedAt
+
   @@map("settings")
 }
 
 // Banners promocionales para CMS
 model Banner {
-  id          String    @id @default(uuid())
+  id          String  @id @default(uuid())
   title       String
   description String?
   imageUrl    String
   linkUrl     String?
-  
-  isActive    Boolean   @default(true)
-  sortOrder   Int       @default(0)
-  
-  startDate   DateTime?
-  endDate     DateTime?
-  
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  
+
+  isActive  Boolean @default(true)
+  sortOrder Int     @default(0)
+
+  startDate DateTime?
+  endDate   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@map("banners")
 }

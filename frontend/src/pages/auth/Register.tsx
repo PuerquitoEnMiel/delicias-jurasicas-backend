@@ -52,30 +52,42 @@ export default function Register() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
-            <div className="max-w-md w-full">
-                <div className="text-center mb-8">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                        🦖 Delicias Jurásicas
-                    </h1>
-                    <h2 className="text-2xl font-semibold text-gray-700">
-                        Crear Cuenta
-                    </h2>
-                </div>
+        <div className="min-h-screen flex bg-beige-50">
+            {/* Left Side - Visual */}
+            <div className="hidden lg:flex lg:w-1/2 bg-gray-900 relative overflow-hidden items-center justify-center">
+                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1626202158826-62d2d4c0627c?q=80&w=1974&auto=format&fit=crop')] bg-cover bg-center opacity-40"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-chocolate-900/90 to-gray-900/90"></div>
 
-                <div className="card">
+                <div className="relative z-10 p-12 text-white max-w-lg">
+                    <div className="w-16 h-16 bg-amarillo-500 rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-amarillo-500/30 transform -rotate-3">
+                        <span className="text-4xl">🦖</span>
+                    </div>
+                    <h1 className="text-5xl font-bold mb-6 leading-tight">Únete a la <br />Manada</h1>
+                    <p className="text-xl text-beige-100 leading-relaxed">
+                        Crea tu cuenta y comienza a disfrutar de los sabores más legendarios de la historia.
+                    </p>
+                </div>
+            </div>
+
+            {/* Right Side - Form */}
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+                <div className="max-w-md w-full bg-white p-10 rounded-3xl shadow-warm-xl border-2 border-beige-100">
+                    <div className="text-center mb-8">
+                        <h2 className="text-3xl font-bold text-chocolate-900 mb-2">Crear Cuenta</h2>
+                        <p className="text-chocolate-600">Completa tus datos para registrarte</p>
+                    </div>
+
                     {error && (
-                        <div className="alert alert-danger mb-4">
+                        <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
                             {error}
                         </div>
                     )}
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
-                            <div className="form-group">
-                                <label htmlFor="firstName" className="form-label">
-                                    Nombre
-                                </label>
+                            <div className="space-y-2">
+                                <label htmlFor="firstName" className="form-label ml-1">Nombre</label>
                                 <input
                                     id="firstName"
                                     name="firstName"
@@ -84,13 +96,12 @@ export default function Register() {
                                     className="form-input"
                                     value={formData.firstName}
                                     onChange={handleChange}
+                                    placeholder="Juan"
                                 />
                             </div>
 
-                            <div className="form-group">
-                                <label htmlFor="lastName" className="form-label">
-                                    Apellido
-                                </label>
+                            <div className="space-y-2">
+                                <label htmlFor="lastName" className="form-label ml-1">Apellido</label>
                                 <input
                                     id="lastName"
                                     name="lastName"
@@ -99,14 +110,13 @@ export default function Register() {
                                     className="form-input"
                                     value={formData.lastName}
                                     onChange={handleChange}
+                                    placeholder="Pérez"
                                 />
                             </div>
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="email" className="form-label">
-                                Email
-                            </label>
+                        <div className="space-y-2">
+                            <label htmlFor="email" className="form-label ml-1">Email</label>
                             <input
                                 id="email"
                                 name="email"
@@ -119,10 +129,8 @@ export default function Register() {
                             />
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="phone" className="form-label">
-                                Teléfono (opcional)
-                            </label>
+                        <div className="space-y-2">
+                            <label htmlFor="phone" className="form-label ml-1">Teléfono (opcional)</label>
                             <input
                                 id="phone"
                                 name="phone"
@@ -134,10 +142,8 @@ export default function Register() {
                             />
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="password" className="form-label">
-                                Contraseña
-                            </label>
+                        <div className="space-y-2">
+                            <label htmlFor="password" className="form-label ml-1">Contraseña</label>
                             <input
                                 id="password"
                                 name="password"
@@ -150,10 +156,8 @@ export default function Register() {
                             />
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="confirmPassword" className="form-label">
-                                Confirmar Contraseña
-                            </label>
+                        <div className="space-y-2">
+                            <label htmlFor="confirmPassword" className="form-label ml-1">Confirmar Contraseña</label>
                             <input
                                 id="confirmPassword"
                                 name="confirmPassword"
@@ -162,13 +166,14 @@ export default function Register() {
                                 className="form-input"
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
+                                placeholder="Repite tu contraseña"
                             />
                         </div>
 
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="btn btn-primary w-full flex items-center justify-center gap-2"
+                            className="btn btn-primary w-full flex items-center justify-center gap-2 shadow-glow-verde mt-4"
                         >
                             {isLoading ? (
                                 <>Creando cuenta...</>
@@ -181,10 +186,10 @@ export default function Register() {
                         </button>
                     </form>
 
-                    <div className="mt-6 text-center">
-                        <p className="text-sm text-gray-600">
+                    <div className="mt-8 text-center">
+                        <p className="text-chocolate-600">
                             ¿Ya tienes cuenta?{' '}
-                            <Link to="/login" className="text-primary font-semibold hover:underline">
+                            <Link to="/login" className="text-verde-600 font-bold hover:text-verde-700 hover:underline transition-colors">
                                 Inicia sesión aquí
                             </Link>
                         </p>

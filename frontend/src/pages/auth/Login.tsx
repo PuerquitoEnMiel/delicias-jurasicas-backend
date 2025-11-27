@@ -32,29 +32,29 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-screen flex bg-white">
+        <div className="min-h-screen flex bg-beige-50">
             {/* Left Side - Visual */}
             <div className="hidden lg:flex lg:w-1/2 bg-gray-900 relative overflow-hidden items-center justify-center">
                 <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1626202158826-62d2d4c0627c?q=80&w=1974&auto=format&fit=crop')] bg-cover bg-center opacity-40"></div>
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-900/80 to-gray-900/90"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-chocolate-900/90 to-gray-900/90"></div>
 
                 <div className="relative z-10 p-12 text-white max-w-lg">
-                    <div className="w-16 h-16 bg-primary-500 rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-primary-500/30">
+                    <div className="w-16 h-16 bg-verde-500 rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-verde-500/30 transform rotate-3">
                         <span className="text-4xl">🦖</span>
                     </div>
                     <h1 className="text-5xl font-bold mb-6 leading-tight">Bienvenido a la <br />Aventura Culinaria</h1>
-                    <p className="text-xl text-gray-300 leading-relaxed">
+                    <p className="text-xl text-beige-100 leading-relaxed">
                         Gestiona tu imperio de sabores prehistóricos con las herramientas más avanzadas del mercado.
                     </p>
                 </div>
             </div>
 
             {/* Right Side - Form */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gray-50">
-                <div className="max-w-md w-full bg-white p-10 rounded-3xl shadow-xl shadow-gray-200/50">
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+                <div className="max-w-md w-full bg-white p-10 rounded-3xl shadow-warm-xl border-2 border-beige-100">
                     <div className="text-center mb-10">
-                        <h2 className="text-3xl font-bold text-gray-900 mb-2">Iniciar Sesión</h2>
-                        <p className="text-gray-500">Ingresa tus credenciales para acceder</p>
+                        <h2 className="text-3xl font-bold text-chocolate-900 mb-2">Iniciar Sesión</h2>
+                        <p className="text-chocolate-600">Ingresa tus credenciales para acceder</p>
                     </div>
 
                     {error && (
@@ -66,14 +66,14 @@ export default function Login() {
 
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="space-y-2">
-                            <label className="text-sm font-semibold text-gray-700 ml-1">Email</label>
+                            <label className="form-label ml-1">Email</label>
                             <div className="relative">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-chocolate-400" />
                                 <input
                                     name="email"
                                     type="email"
                                     required
-                                    className="input-field pl-12"
+                                    className="form-input pl-12"
                                     value={formData.email}
                                     onChange={handleChange}
                                     placeholder="tu@email.com"
@@ -83,16 +83,16 @@ export default function Login() {
 
                         <div className="space-y-2">
                             <div className="flex justify-between items-center ml-1">
-                                <label className="text-sm font-semibold text-gray-700">Contraseña</label>
-                                <a href="#" className="text-sm text-primary-600 hover:text-primary-700 font-medium">¿Olvidaste tu contraseña?</a>
+                                <label className="form-label">Contraseña</label>
+                                <a href="#" className="text-sm text-verde-600 hover:text-verde-700 font-medium transition-colors">¿Olvidaste tu contraseña?</a>
                             </div>
                             <div className="relative">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-chocolate-400" />
                                 <input
                                     name="password"
                                     type="password"
                                     required
-                                    className="input-field pl-12"
+                                    className="form-input pl-12"
                                     value={formData.password}
                                     onChange={handleChange}
                                     placeholder="••••••••"
@@ -103,7 +103,7 @@ export default function Login() {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="btn btn-primary w-full group"
+                            className="btn btn-primary w-full group shadow-glow-verde"
                         >
                             {isLoading ? (
                                 'Iniciando sesión...'
@@ -117,18 +117,18 @@ export default function Login() {
                     </form>
 
                     <div className="mt-8 text-center">
-                        <p className="text-gray-600">
+                        <p className="text-chocolate-600">
                             ¿No tienes cuenta?{' '}
-                            <Link to="/register" className="text-primary-600 font-bold hover:text-primary-700 hover:underline">
+                            <Link to="/register" className="text-verde-600 font-bold hover:text-verde-700 hover:underline transition-colors">
                                 Regístrate aquí
                             </Link>
                         </p>
                     </div>
 
                     {/* Demo Credentials */}
-                    <div className="mt-8 pt-8 border-t border-gray-100">
-                        <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 text-center">Credenciales de Demo</p>
-                        <div className="grid grid-cols-1 gap-2 text-xs text-gray-500 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <div className="mt-8 pt-8 border-t border-beige-100">
+                        <p className="text-xs font-bold text-chocolate-400 uppercase tracking-wider mb-4 text-center">Credenciales de Demo</p>
+                        <div className="grid grid-cols-1 gap-2 text-xs text-chocolate-700 bg-amarillo-50 p-4 rounded-xl border border-amarillo-200">
                             <div className="flex justify-between">
                                 <span className="font-semibold">Admin:</span>
                                 <span className="font-mono">admin@deliciasjurasicas.com</span>
